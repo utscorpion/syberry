@@ -48,9 +48,8 @@ class TaskController extends Controller
 
         $entities = $this->entityManager->getRepository(Task::class)->findAll();
 
-        dd($entities);
 
-        return view('index');
+        return view('boot');
     }
 
     /**
@@ -85,14 +84,20 @@ class TaskController extends Controller
 
     /**
      * @param Task $task
+     * @throws ORMException
+     * @throws \Doctrine\ORM\OptimisticLockException
      */
     public function store(Task $task)
     {
+
         $data = $this->request->all();
 
         $task->setTitle('111');
         $task->setDescription('111');
         $task->setStatus(self::TASK_STATUS_OPENED);
+
+        $this->entityManager->persist($task);
+        $this->entityManager->flush();
     }
 
     /**
