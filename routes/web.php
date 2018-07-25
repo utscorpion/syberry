@@ -11,4 +11,9 @@
 |
 */
 
-Route::get('/', ['as' => 'task', 'uses' => 'IndexController@show']);
+Route::get('/', ['as' => 'index', 'uses' => 'TaskController@index']);
+
+Route::get('/{id}', ['as' => 'show', 'uses' => 'TaskController@show']);
+
+Route::post('/store', ['as' => 'store', 'uses' => 'TaskController@store']);
+

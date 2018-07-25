@@ -1,11 +1,9 @@
 <?php
 
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-/**
- * Class CreateTasksTable create a new table 'tasks'
- */
 class CreateTasksTable extends Migration
 {
     /**
@@ -19,9 +17,8 @@ class CreateTasksTable extends Migration
             CREATE TABLE IF NOT EXISTS `tasks` (
               `id` INT NOT NULL AUTO_INCREMENT,
               `title` VARCHAR(45) NOT NULL,
-              `body` TEXT NOT NULL,
-              `status` ENUM(\'open\', \'close\') NOT NULL,
-              `create_date` DATETIME NOT NULL,
+              `description` TEXT NOT NULL,
+              `status` ENUM(\'opened\', \'closed\') NOT NULL,
             PRIMARY KEY (`id`)
             )
             DEFAULT CHARACTER SET utf8

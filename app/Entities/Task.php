@@ -4,7 +4,6 @@ namespace App\Entities;
 
 /**
  * Class Task
- * @package App\Entities
  */
 class Task
 {
@@ -21,17 +20,12 @@ class Task
     /**
      * @var string
      */
-    private $body;
+    private $description;
 
     /**
      * @var string
      */
     private $status;
-
-    /**
-     * @var \DateTime
-     */
-    private $createDate;
 
     /**
      * @return int
@@ -68,17 +62,17 @@ class Task
     /**
      * @return string
      */
-    public function getBody()
+    public function getDescription()
     {
-        return $this->body;
+        return $this->description;
     }
 
     /**
-     * @param string $body
+     * @param string $description
      */
-    public function setBody(string $body)
+    public function setDescription(string $description)
     {
-        $this->body = $body;
+        $this->description = $description;
     }
 
     /**
@@ -95,38 +89,5 @@ class Task
     public function setStatus(string $status)
     {
         $this->status = $status;
-    }
-
-    /**
-     * @return \DateTime
-     */
-    public function getCreateDate()
-    {
-        return $this->createDate;
-    }
-
-    /**
-     * @param \DateTime $createDate
-     */
-    public function setCreateDate(\DateTime $createDate)
-    {
-        $this->createDate = $createDate;
-    }
-
-    /**
-     * Get the instance as an array.
-     *
-     * @return array
-     */
-    public function toArray()
-    {
-        $array = [];
-
-        $array['id'] = $this->getId();
-        $array['title'] = $this->getTitle();
-        $array['body'] = $this->getBody();
-        $array['create_date'] = $this->getCreateDate();
-
-        return $array;
     }
 }

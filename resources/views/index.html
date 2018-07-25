@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Демо: Модальное окно на HTML5, CSS3 и скрытых чекбоксах</title>
+    <meta name="description" content="Пример создания всплывающего модального окна на скрытых чекбоксах, исключительно средствами CSS3 и HTML5" />
+    <meta name="keywords" content="модальное окно, html5, css3, checkbox, демо" />
+	<meta name="author" content="Dobrovoimaster" />
+	<link rel="stylesheet" type="text/css" href="style.css">
+	<style>
+       a {
+       color: #96443c;
+       text-decoration: none;
+       }
+    </style>
+</head>
+<body>
+<div class="demo">
+    <label title="Стандартное модальное окно" class="btn" for="modal-1">Пример 1</label>&nbsp;&nbsp;<label title="Контактная форма в модальном окне" class="btn" for="modal-2">Пример 2</label>&nbsp;&nbsp;<label title="Изображения в модальном окне" class="btn" for="modal-3">Пример 3</label>
+</div>
+
+<!-- Modal Two -->
+<div class="modal">
+  <input class="modal-open" id="modal-2" type="checkbox" hidden>
+  <div class="modal-wrap" aria-hidden="true" role="dialog">
+    <label class="modal-overlay" for="modal-2"></label>
+    <div class="modal-dialog">
+      <div class="modal-header">
+        <h2>Форма в Модальное окно! :)</h2>
+        <label class="btn-close" for="modal-2" aria-hidden="true">×</label>
+      </div>
+      <div class="modal-body">
+          <form>
+	         <input name="name" placeholder="* Укажите ваше имя" class="textbox" required />
+	         <input name="emailaddress" placeholder="* Укажите ваш Email" class="textbox" type="email" required />
+             <textarea rows="4" cols="50" name="subject" placeholder="* Введите ваше сообщение:" class="message" required></textarea>
+              <input name="submit" class="btn btn-form" type="submit" value="Отправить" />
+          </form>
+      </div>
+    </div>
+  </div>
+</div>
+    
+</body>
+</html>

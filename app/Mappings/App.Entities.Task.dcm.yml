@@ -1,0 +1,32 @@
+App\Entities\Task:
+    type: entity
+    table: tasks
+    id:
+        id:
+            type: integer
+            nullable: false
+            options:
+                unsigned: false
+            id: true
+            generator:
+                strategy: IDENTITY
+    fields:
+        title:
+            type: string
+            nullable: false
+            length: 45
+            options:
+                fixed: false
+        description:
+            type: text
+            nullable: true
+            length: 65535
+            options:
+                fixed: false
+        status:
+            type: string
+            nullable: false
+            length: 0
+            options:
+                fixed: false
+    lifecycleCallbacks: {  }
