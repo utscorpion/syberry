@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <link href="{{asset('css/bootstrap.min.css')}}" rel="stylesheet">
+    {{--<link href="{{asset('css/bootstrap.css')}}" rel="stylesheet">--}}
     <link rel="stylesheet"
           href="{{asset('https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css')}}">
     <script src="{{asset('https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js')}}"></script>
@@ -37,22 +37,29 @@
             </tr>
             </thead>
             <tbody>
-            @foreach($tasks as $task)
-                <tr>
-                    <td>{{$task->getId()}}</td>
-                    <td>{{$task->getTitle()}}</td>
-                    <td>{{$task->getDescription()}}</td>
-                    <td>{{$task->getStatus()}}</td>
-                    <td>
-                        <button type="submit" class="btn btn-primary">Change</button>
-                        <form action="{{route('destroy', array('id' => $task->getId()))}}" method="POST">
-                            @method('DELETE')
-                            <input type="hidden" name="_token" value="{{csrf_token()}}">
-                            <button type="submit" class="btn btn-danger">Delete</button>
-                        </form>
-                    </td>
-                </tr>
-            @endforeach
+            @if(isset($tasks))
+                @foreach($tasks as $task)
+                    <tr>
+                        <td>{{$task['id']}}</td>
+                        <td>{{$task['title']}}</td>
+                        <td>{{$task['description']}}</td>
+                        <td>{{$task['status']}}</td>
+                        <td>
+                            <form action="{{route('show', array('id' => $task['id']))}}" method="GET">
+                                <button type="submit" class="btn btn-primary" data-toggle="modal"
+                                        data-target="#exampleModalUpdate">
+                                    Change
+                                </button>
+                            </form>
+                            <form action="{{route('destroy', array('id' => $task['id']))}}" method="POST">
+                                @method('DELETE')
+                                <input type="hidden" name="_token" value="{{csrf_token()}}">
+                                <button type="submit" class="btn btn-danger">Delete</button>
+                            </form>
+                        </td>
+                    </tr>
+                @endforeach
+            @endif
             </tbody>
         </table>
     </div>
@@ -90,6 +97,47 @@
             </div>
         </div>
     </div>
+
+    @if(isset($taskUpdate))
+        <div id="exampleModalLive" class="modal fade show" tabindex="-1" role="dialog"
+             aria-labelledby="exampleModalLiveLabel"
+             aria-hidden="true" style="display: block; opacity: 1">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLiveLabel">Change choosen task</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <form method="POST" action="{{route('update', array('id' => $taskUpdate['id']))}}">
+                            @method('PATCH')
+                            <input type="hidden" name="_token" value="{{csrf_token()}}">
+                            <label for="title">Title</label>
+                            <div><input type="text" name="title" value="{{$taskUpdate['title']}}"></div>
+                            <label for="description">Description</label>
+                            <div><input type="text" name="description" value="{{$taskUpdate['description']}}"></div>
+                            <label for="status">Status</label>
+                            <div>
+                                <input type="radio" name="status" value="opened" checked> Opened<Br>
+                                <input type="radio" name="status" value="closed"> Closed
+                            </div>
+                            <div class="modal-footer">
+                                <button type="submit" class="btn btn-primary">Save</button>
+                                <a href="{{route('index')}}">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                </a>
+                            </div>
+                        </form>
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    @endif
+
 </div>
 </body>
 </html>

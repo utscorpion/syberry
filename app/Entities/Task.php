@@ -90,4 +90,22 @@ class Task
     {
         $this->status = $status;
     }
+
+
+    /**
+     * Get the instance as an array.
+     *
+     * @return array
+     */
+    public function toArray()
+    {
+        $array = [];
+
+        $array['id'] = $this->getId();
+        $array['title'] = $this->getTitle();
+        $array['description'] = $this->getDescription();
+        $array['status'] = $this->getStatus();
+
+        return $array;
+    }
 }

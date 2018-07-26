@@ -8,6 +8,7 @@ use App\Entities\Task;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\ORMException;
 use Illuminate\View\View;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Class TaskController
@@ -40,16 +41,43 @@ class TaskController extends Controller
 
     /**
      * @return \Illuminate\Contracts\View\Factory|View
+     * @throws EntityNotFoundException
      */
     public function index()
     {
+        $arrTasks = [];
+
         $tasks = $this->entityManager->getRepository(Task::class)->findAll();
 
-        return view('tasks', ['tasks' => $tasks]);
+        if(!isset($tasks)) {
+            throw new EntityNotFoundException('Tasks with such id was not found, DB is empty');
+        }
+
+        foreach ($tasks as $task){
+            $arrTasks[] = $task->toArray();
+        }
+
+        return view('tasks', ['tasks' => $arrTasks]);
+    }
+
+    /**
+     * @param $id
+     * @return \Illuminate\Contracts\View\Factory|View
+     * @throws ORMException
+     * @throws \Doctrine\ORM\OptimisticLockException
+     * @throws \Doctrine\ORM\TransactionRequiredException
+     */
+    public function show($id)
+    {
+        $taskUpdate = $this->entityManager->find(Task::class, $id);
+        $taskUpdate = $taskUpdate->toArray();
+
+        return view('tasks', ['taskUpdate' => $taskUpdate]);
     }
 
     /**
      * @param int $id
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      * @throws EntityNotFoundException
      * @throws ORMException
      * @throws \Doctrine\ORM\OptimisticLockException
@@ -62,11 +90,26 @@ class TaskController extends Controller
         if(!isset($task)) {
             throw new EntityNotFoundException('Task with such id was not found');
         }
+
+        $this->validate($this->request, [
+            'title' => 'required|between:5,45',
+            'description' => 'required|string',
+            'status' => 'required|in:opened,closed',
+        ]);
+
+        $task->setTitle($this->request->input('title'));
+        $task->setDescription($this->request->input('description'));
+        $task->setStatus($this->request->input('status'));
+
+        $this->entityManager->persist($task);
+        $this->entityManager->flush();
+
+        return redirect(route('index'));
     }
 
     /**
      * @param Task $task
-     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     * @return \Illuminate\Http\Response
      * @throws ORMException
      * @throws \Doctrine\ORM\OptimisticLockException
      */
@@ -82,12 +125,12 @@ class TaskController extends Controller
 
         $task->setTitle($data['title']);
         $task->setDescription($data['description']);
-        $task->setStatus(self::TASK_STATUS_OPENED);
+        $task->setStatus($data['status']);
 
         $this->entityManager->persist($task);
         $this->entityManager->flush();
 
-        return redirect(route('index'));
+        return redirect(route('index'), Response::HTTP_CREATED);
     }
 
     /**
@@ -104,7 +147,7 @@ class TaskController extends Controller
         if(!isset($task)) {
             throw new EntityNotFoundException('Task with such id was not found');
         }
-        
+
         $this->entityManager->remove($task);
         $this->entityManager->flush();
 

@@ -15,9 +15,8 @@ Route::get('/', ['as' => 'index', 'uses' => 'TaskController@index']);
 
 Route::get('/{id}', ['as' => 'show', 'uses' => 'TaskController@show']);
 
-Route::post('/store', ['as' => 'store', 'uses' => 'TaskController@store']);
+Route::post('/', ['as' => 'store', 'uses' => 'TaskController@store']);
 
-Route::delete('/destroy/{id}', ['as' => 'destroy', 'uses' => 'TaskController@destroy']);
+Route::delete('/{id}', ['as' => 'destroy', 'uses' => 'TaskController@destroy']);
 
-
-
+Route::patch('/{id}', ['as' => 'update', 'uses' => 'TaskController@update']);
