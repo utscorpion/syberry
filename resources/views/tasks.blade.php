@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    {{--<link href="{{asset('css/bootstrap.css')}}" rel="stylesheet">--}}
+    <link href="{{asset('css/bootstrap.css')}}" rel="stylesheet">
     <link rel="stylesheet"
           href="{{asset('https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css')}}">
     <script src="{{asset('https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js')}}"></script>
@@ -51,10 +51,17 @@
                                     Change
                                 </button>
                             </form>
+
+                            <button class="btn btn-default" data-toggle="confirmation">Confirmation</button>
+
+
                             <form action="{{route('destroy', array('id' => $task['id']))}}" method="POST">
                                 @method('DELETE')
                                 <input type="hidden" name="_token" value="{{csrf_token()}}">
-                                <button type="submit" class="btn btn-danger">Delete</button>
+
+
+                                <button class="btn btn-default" data-toggle="confirmation">Confirmation</button>
+                                <button type="submit" class="btn btn-danger" data-toggle="confirmation">Delete</button>
                             </form>
                         </td>
                     </tr>
@@ -139,5 +146,6 @@
     @endif
 
 </div>
+
 </body>
 </html>

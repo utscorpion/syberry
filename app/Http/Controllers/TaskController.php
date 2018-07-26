@@ -30,8 +30,8 @@ class TaskController extends Controller
 
     /**
      * TaskController constructor.
-     * @param EntityManager $entityManager.
-     * @param Request $request.
+     * @param EntityManager $entityManager .
+     * @param Request $request .
      */
     public function __construct(EntityManager $entityManager, Request $request)
     {
@@ -51,11 +51,11 @@ class TaskController extends Controller
 
         $tasks = $this->entityManager->getRepository(Task::class)->findAll();
 
-        if(!isset($tasks)) {
+        if (!isset($tasks)) {
             throw new EntityNotFoundException('Tasks with such id was not found, DB is empty');
         }
 
-        foreach ($tasks as $task){
+        foreach ($tasks as $task) {
             $arrTasks[] = $task->toArray();
         }
 
@@ -65,7 +65,7 @@ class TaskController extends Controller
     /**
      * This method shows one task from DB by ID.
      *
-     * @param $id.
+     * @param $id
      * @return \Illuminate\Contracts\View\Factory|View.
      * @throws ORMException.
      * @throws \Doctrine\ORM\OptimisticLockException.
@@ -82,7 +82,7 @@ class TaskController extends Controller
     /**
      * This method update task from DB.
      *
-     * @param int $id.
+     * @param int $id
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector.
      * @throws EntityNotFoundException.
      * @throws ORMException.
@@ -93,7 +93,7 @@ class TaskController extends Controller
     {
         $task = $this->entityManager->find(Task::class, $id);
 
-        if(!isset($task)) {
+        if (!isset($task)) {
             throw new EntityNotFoundException('Task with such id was not found');
         }
 
@@ -112,7 +112,7 @@ class TaskController extends Controller
     /**
      * This method create a new task.
      *
-     * @param Task $task.
+     * @param Task $task
      * @return \Illuminate\Http\Response.
      * @throws ORMException.
      * @throws \Doctrine\ORM\OptimisticLockException.
@@ -136,7 +136,7 @@ class TaskController extends Controller
     /**
      * This method delete selected task.
      *
-     * @param int $id.
+     * @param int $id
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector.
      * @throws ORMException.
      * @throws \Doctrine\ORM\OptimisticLockException.
@@ -146,7 +146,7 @@ class TaskController extends Controller
     {
         $task = $this->entityManager->find(Task::class, $id);
 
-        if(!isset($task)) {
+        if (!isset($task)) {
             throw new EntityNotFoundException('Task with such id was not found');
         }
 

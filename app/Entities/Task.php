@@ -37,10 +37,13 @@ class Task
 
     /**
      * @param int $id
+     * @return task
      */
     public function setId(int $id)
     {
         $this->id = $id;
+
+        return $this;
     }
 
     /**
@@ -53,10 +56,13 @@ class Task
 
     /**
      * @param string $title
+     * @return $this
      */
     public function setTitle(string $title)
     {
         $this->title = $title;
+
+        return $this;
     }
 
     /**
@@ -69,10 +75,13 @@ class Task
 
     /**
      * @param string $description
+     * @return $this
      */
     public function setDescription(string $description)
     {
         $this->description = $description;
+
+        return $this;
     }
 
     /**
@@ -85,10 +94,13 @@ class Task
 
     /**
      * @param string $status
+     * @return $this
      */
     public function setStatus(string $status)
     {
         $this->status = $status;
+
+        return $this;
     }
 
 
