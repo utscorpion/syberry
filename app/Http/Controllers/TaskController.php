@@ -11,27 +11,27 @@ use Illuminate\View\View;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
- * Class TaskController
- * @package App\Http\Controllers
+ * Class TaskController.
+ * @package App\Http\Controllers.
  */
 class TaskController extends Controller
 {
     const TASK_STATUS_OPENED = 'opened';
 
     /**
-     * @var EntityManager
+     * @var EntityManager.
      */
     private $entityManager;
 
     /**
-     * @var Request
+     * @var Request.
      */
     private $request;
 
     /**
      * TaskController constructor.
-     * @param EntityManager $entityManager
-     * @param Request $request
+     * @param EntityManager $entityManager.
+     * @param Request $request.
      */
     public function __construct(EntityManager $entityManager, Request $request)
     {
@@ -40,6 +40,8 @@ class TaskController extends Controller
     }
 
     /**
+     * This method shows all tasks from DB
+     *
      * @return \Illuminate\Contracts\View\Factory|View
      * @throws EntityNotFoundException
      */
@@ -61,11 +63,13 @@ class TaskController extends Controller
     }
 
     /**
-     * @param $id
-     * @return \Illuminate\Contracts\View\Factory|View
-     * @throws ORMException
-     * @throws \Doctrine\ORM\OptimisticLockException
-     * @throws \Doctrine\ORM\TransactionRequiredException
+     * This method shows one task from DB by ID.
+     *
+     * @param $id.
+     * @return \Illuminate\Contracts\View\Factory|View.
+     * @throws ORMException.
+     * @throws \Doctrine\ORM\OptimisticLockException.
+     * @throws \Doctrine\ORM\TransactionRequiredException.
      */
     public function show($id)
     {
@@ -76,12 +80,14 @@ class TaskController extends Controller
     }
 
     /**
-     * @param int $id
-     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
-     * @throws EntityNotFoundException
-     * @throws ORMException
-     * @throws \Doctrine\ORM\OptimisticLockException
-     * @throws \Doctrine\ORM\TransactionRequiredException
+     * This method update task from DB.
+     *
+     * @param int $id.
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector.
+     * @throws EntityNotFoundException.
+     * @throws ORMException.
+     * @throws \Doctrine\ORM\OptimisticLockException.
+     * @throws \Doctrine\ORM\TransactionRequiredException.
      */
     public function update(int $id)
     {
@@ -91,11 +97,7 @@ class TaskController extends Controller
             throw new EntityNotFoundException('Task with such id was not found');
         }
 
-        $this->validate($this->request, [
-            'title' => 'required|between:5,45',
-            'description' => 'required|string',
-            'status' => 'required|in:opened,closed',
-        ]);
+        $this->validateByRules($this->request);
 
         $task->setTitle($this->request->input('title'));
         $task->setDescription($this->request->input('description'));
@@ -108,18 +110,16 @@ class TaskController extends Controller
     }
 
     /**
-     * @param Task $task
-     * @return \Illuminate\Http\Response
-     * @throws ORMException
-     * @throws \Doctrine\ORM\OptimisticLockException
+     * This method create a new task.
+     *
+     * @param Task $task.
+     * @return \Illuminate\Http\Response.
+     * @throws ORMException.
+     * @throws \Doctrine\ORM\OptimisticLockException.
      */
     public function store(Task $task)
     {
-        $this->validate($this->request, [
-            'title' => 'required|between:5,45',
-            'description' => 'required|string',
-            'status' => 'required|in:opened,closed',
-        ]);
+        $this->validateByRules($this->request);
 
         $data = $this->request->all();
 
@@ -134,11 +134,13 @@ class TaskController extends Controller
     }
 
     /**
-     * @param int $id
-     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
-     * @throws ORMException
-     * @throws \Doctrine\ORM\OptimisticLockException
-     * @throws \Doctrine\ORM\TransactionRequiredException
+     * This method delete selected task.
+     *
+     * @param int $id.
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector.
+     * @throws ORMException.
+     * @throws \Doctrine\ORM\OptimisticLockException.
+     * @throws \Doctrine\ORM\TransactionRequiredException.
      */
     public function destroy(int $id)
     {
@@ -152,5 +154,14 @@ class TaskController extends Controller
         $this->entityManager->flush();
 
         return redirect(route('index'));
+    }
+
+    private function validateByRules($data)
+    {
+        $this->validate($data, [
+            'title' => 'required|between:5,45',
+            'description' => 'required|string',
+            'status' => 'required|in:opened,closed',
+        ]);
     }
 }
