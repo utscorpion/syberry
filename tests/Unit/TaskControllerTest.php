@@ -1,15 +1,20 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: utscorpion
- * Date: 7/26/18
- * Time: 10:12 PM
- */
 
 namespace Tests\Unit;
 
+use Tests\TestCase;
+use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 
-class TaskControllerTest
+class TaskControllerTest extends TestCase
 {
-
+    /**
+     * A basic test example.
+     *
+     * @return void
+     */
+    public function testExample()
+    {
+        $this->assertTrue(true);
+    }
 }
