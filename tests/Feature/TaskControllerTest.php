@@ -5,6 +5,10 @@ namespace Tests\Feature;
 use Tests\Fixtures\TaskFixtureLoader;
 use Tests\TestCase;
 
+/**
+ * Class TaskControllerTest
+ * @package Tests\Feature
+ */
 class TaskControllerTest extends TestCase
 {
     /**
@@ -46,10 +50,14 @@ class TaskControllerTest extends TestCase
      */
     public function testShowOutputFromDB()
     {
-        $this->addFixture(new TaskFixtureLoader());
+        $fixture = new TaskFixtureLoader();
+        $this->addFixture($fixture);
         $this->executeFixtures();
 
-        $response = $this->get(route('show', 1));
+        $response = $this->get(route('show', array($fixture->tasks[0]->getId())));
+        $response->assertStatus(200)->assertOk();
+
+        $response = $this->get(route('show', $fixture->tasks[0]->getId()));
         $response->assertSee('title_example');
         $response->assertSee('description_example');
         $response->assertSee('opened');

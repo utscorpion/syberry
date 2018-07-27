@@ -52,15 +52,9 @@
                                 </button>
                             </form>
 
-                            <button class="btn btn-default" data-toggle="confirmation">Confirmation</button>
-
-
                             <form action="{{route('destroy', array('id' => $task['id']))}}" method="POST">
                                 @method('DELETE')
                                 <input type="hidden" name="_token" value="{{csrf_token()}}">
-
-
-                                <button class="btn btn-default" data-toggle="confirmation">Confirmation</button>
                                 <button type="submit" class="btn btn-danger" data-toggle="confirmation">Delete</button>
                             </form>
                         </td>
